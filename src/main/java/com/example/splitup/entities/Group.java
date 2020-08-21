@@ -4,10 +4,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * POJO for user Groups.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,18 +23,20 @@ public class Group {
     @Column(name = "groupid")
     private int groupId;
 
-    @Column(name = "groupname")
+    @Column(name = "groupname", unique = true)
     private String groupName;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "user_groups", joinColumns = {@JoinColumn(referencedColumnName = "groupid")},
-            inverseJoinColumns = {@JoinColumn(referencedColumnName = "userid")})
-    private Set<UserSplit> splits;
+    @ElementCollection(targetClass = Integer.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_groups",
+            joinColumns = @JoinColumn(name = "groupId"))
+    @MapKeyColumn(name = "userId")
+    @Column(name = "balance")
+    private Map<UserSplit, Integer> splits;
 
     @OneToMany(fetch = FetchType.EAGER)
     Set<Transaction> transactions;
 
-    public Group(String groupName, Set<UserSplit> splits, Set<Transaction> transactions) {
+    public Group(String groupName, Map<UserSplit, Integer> splits, Set<Transaction> transactions) {
         this.groupName = groupName;
         this.splits = splits;
         this.transactions = transactions;
@@ -53,7 +59,7 @@ public class Group {
         return "Group{" +
                "groupId=" + groupId +
                ", groupName='" + groupName + '\'' +
-               ", usersOfGroup=" + splits.stream()
+               ", usersOfGroup=" + splits.keySet().stream()
                                          .map(UserSplit::getUserName)
                                          .collect(Collectors.joining(", ")) +
                ", transactions=" + transactions +

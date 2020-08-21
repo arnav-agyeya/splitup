@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+/**
+ * Interface DAO class for Transaction POJO
+ */
 @Repository
 public interface ITransactionDAO extends JpaRepository<Transaction, Integer> {
 

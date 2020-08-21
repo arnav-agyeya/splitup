@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * POJO to handle transaction done in a group
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,7 +22,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "transactionid")
-    private long transactionId;
+    private Long transactionId;
 
     @Column(name = "datetime")
     @CreationTimestamp

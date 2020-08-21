@@ -5,10 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * POJO to handle users of APP
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -26,23 +30,29 @@ public class UserSplit {
     @Column(name = "isactive")
     private String isActive = null;
 
-    @ManyToMany(mappedBy = "splits")
-    private Set<Group> userGroups;
+    @Column(name = "mobilenumber", unique = true)
+    private String mobileNumber;
 
-    public UserSplit(String userName) {
+    @Column(name = "emailid", unique = true)
+    private String emailId;
+
+    @ElementCollection(fetch = FetchType.EAGER )
+    private Set<Group> userGroups = new LinkedHashSet<>();
+
+    public UserSplit(String userName, String mobileNumber, String emailId) {
         this.userName = userName;
         this.isActive = Boolean.toString(true);
+        this.mobileNumber = mobileNumber;
+        this.emailId = emailId;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserSplit)) return false;
         UserSplit userSplit = (UserSplit) o;
-        return userId == userSplit.userId &&
-                Objects.equals(userName, userSplit.userName) &&
-                Objects.equals(userGroups, userSplit.userGroups);
+        //TODO: Needs rework
+        return userId == userSplit.userId;
     }
 
     @Override
