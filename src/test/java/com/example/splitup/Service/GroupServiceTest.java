@@ -63,7 +63,7 @@ public class GroupServiceTest {
         assertEquals(groupSaved.getBody(), group);
         assertEquals(HttpStatus.ACCEPTED, groupSaved.getStatusCode());
 
-        ResponseEntity<Group> groupResponseEntity = groupService.addTransaction(group.getGroupId(), testUsers.get(0).getUserId(), 25000, new HashSet<>() {{
+        ResponseEntity<Group> groupResponseEntity = groupService.addTransactionToGroup(group.getGroupId(), testUsers.get(0).getUserId(), 25000, new HashSet<>() {{
             add(testUsers.get(0).getUserId());
             add(testUsers.get(1).getUserId());
             add(testUsers.get(2).getUserId());

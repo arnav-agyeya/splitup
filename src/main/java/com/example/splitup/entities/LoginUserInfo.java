@@ -2,6 +2,7 @@ package com.example.splitup.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 
@@ -31,6 +32,7 @@ public class LoginUserInfo {
     public LoginUserInfo(UserSplit user, String userName, String passWord) {
         this.user = user;
         this.userName = userName;
-        this.passWord = passWord;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.passWord = encoder.encode(passWord);
     }
 }

@@ -38,10 +38,10 @@ public class GroupService {
     }
 
     @RequestMapping(path = "/addTransaction", method = RequestMethod.POST)
-    public ResponseEntity<Group> addTransaction(@RequestParam("groupId") int groupId,
-                                                @RequestParam("spenderId") int spenderId,
-                                                @RequestParam("amount")int amount,
-                                                @RequestParam Set<Integer> usersSpent)
+    public ResponseEntity<Group> addTransactionToGroup(@RequestParam("groupId") int groupId,
+                                                       @RequestParam("spenderId") int spenderId,
+                                                       @RequestParam("amount")int amount,
+                                                       @RequestParam Set<Integer> usersSpent)
     {
 
         try {
